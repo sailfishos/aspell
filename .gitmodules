@@ -1,0 +1,3 @@
+[submodule "aspell"]
+	path = aspell
+	url = https://git.merproject.org/mirror/aspell.git

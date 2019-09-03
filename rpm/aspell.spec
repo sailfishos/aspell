@@ -1,20 +1,13 @@
 Summary: A spelling checker
 Name: aspell
-Version: 0.60.6.1
-Release: 3
+Version: 0.60.7
+Release: 1
 License: LGPLv2 and MIT
 Group: Applications/Text
 URL: http://aspell.net/
 Source0: ftp://ftp.gnu.org/gnu/aspell/aspell-%{version}.tar.gz
-Patch1: aspell-0.50.3-gcc33.patch
-Patch3: aspell-0.60.3-install_info.patch
-Patch5: aspell-0.60.5-fileconflict.patch
 Patch7: aspell-0.60.5-pspell_conf.patch
-Patch8: aspell-0.60.6-zero.patch
-Requires: aspell-en
-BuildRequires: gettext, ncurses-devel, pkgconfig
-Requires(pre): /sbin/install-info
-Requires(preun): /sbin/install-info
+BuildRequires: gettext, ncurses-devel, pkgconfig, texinfo
 Provides: pspell < 0.13
 Obsoletes: pspell < 0.13
 Conflicts: ispell < 3.1.21, aspell-pt_BR < 2.5, aspell-config < 0.27
@@ -35,8 +28,6 @@ Summary: Static libraries and header files for Aspell development
 Group: Development/Libraries
 Requires: aspell = %{version}-%{release}
 Requires: pkgconfig
-Requires(pre): /sbin/install-info
-Requires(preun): /sbin/install-info
 Provides: pspell-devel < 0.13
 Obsoletes: pspell-devel < 0.13
 
@@ -46,15 +37,10 @@ static libraries and header files needed for Aspell development.
 
 %prep
 %setup -q -n aspell-%{version}/aspell
-%patch1 -p1 -b .gcc33
-%patch3 -p1 -b .iinfo
-%patch5 -p1 -b .fc
 %patch7 -p1 -b .mlib
-%patch8 -p1 -b .zero
-iconv -f windows-1252 -t utf-8 manual/aspell.info -o manual/aspell.info.aux
-mv manual/aspell.info.aux manual/aspell.info
 
 %build
+./autogen
 %configure
 make %{?_smp_mflags}
 
@@ -71,33 +57,18 @@ rm -f ${RPM_BUILD_ROOT}%{_libdir}/libaspell.la
 rm -f ${RPM_BUILD_ROOT}%{_libdir}/libpspell.la
 rm -f ${RPM_BUILD_ROOT}%{_libdir}/aspell-0.60/*-filter.la
 chmod 644 ${RPM_BUILD_ROOT}%{_bindir}/aspell-import
+rm -f ${RPM_BUILD_ROOT}%{_infodir}/dir
 
 %find_lang %{name}
 
 %post   
 /sbin/ldconfig
-/sbin/install-info %{_infodir}/aspell.info.gz %{_infodir}/dir --entry="* Aspell: (aspell). "  || : 
-
-%post devel
-/sbin/install-info %{_infodir}/aspell-dev.info.gz %{_infodir}/dir --entry="* Aspell-dev: (aspell-dev). " || :
-
-%preun 
-if [ $1 = 0 ]; then
-    /sbin/install-info --delete %{_infodir}/aspell.info.gz %{_infodir}/dir 
-fi
-exit 0
-
-%preun devel
-if [ $1 = 0 ]; then
-    /sbin/install-info --delete %{_infodir}/aspell-dev.info.gz %{_infodir}/dir 
-fi
-exit 0
 
 %postun -p /sbin/ldconfig
 
 %files -f %{name}.lang
 %defattr(-,root,root)
-%doc README TODO COPYING
+%doc README.md TODO COPYING
 %dir %{_libdir}/aspell-0.60
 %{_bindir}/a*
 %{_bindir}/ispell
