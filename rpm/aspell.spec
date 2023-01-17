@@ -1,9 +1,8 @@
 Summary: A spelling checker
 Name: aspell
-Version: 0.60.7
+Version: 0.60.8
 Release: 1
 License: LGPLv2 and MIT
-Group: Applications/Text
 URL: http://aspell.net/
 Source0: ftp://ftp.gnu.org/gnu/aspell/aspell-%{version}.tar.gz
 Patch7: aspell-0.60.5-pspell_conf.patch
@@ -25,7 +24,6 @@ than one Aspell process is open at once.
 
 %package devel
 Summary: Static libraries and header files for Aspell development
-Group: Development/Libraries
 Requires: aspell = %{version}-%{release}
 Requires: pkgconfig
 Provides: pspell-devel < 0.13
@@ -42,11 +40,10 @@ static libraries and header files needed for Aspell development.
 %build
 ./autogen
 %configure
-make %{?_smp_mflags}
+%make_build
 
 %install
-rm -rf $RPM_BUILD_ROOT
-%makeinstall
+%make_install
 
 mkdir -p ${RPM_BUILD_ROOT}%{_libdir}/aspell-0.60
 
@@ -61,14 +58,14 @@ rm -f ${RPM_BUILD_ROOT}%{_infodir}/dir
 
 %find_lang %{name}
 
-%post   
-/sbin/ldconfig
+%post -p /sbin/ldconfig
 
 %postun -p /sbin/ldconfig
 
 %files -f %{name}.lang
 %defattr(-,root,root)
-%doc README.md TODO COPYING
+%license COPYING
+%doc README.md TODO
 %dir %{_libdir}/aspell-0.60
 %{_bindir}/a*
 %{_bindir}/ispell
