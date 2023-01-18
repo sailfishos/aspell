@@ -2,7 +2,7 @@ diff --git a/Makefile.am b/Makefile.am
 index 7e15851..840946d 100644
 --- a/Makefile.am
 +++ b/Makefile.am
-@@ -346,6 +346,9 @@ pspell_include_HEADERS = interfaces/cc/pspell.h
+@@ -355,6 +355,9 @@ pspell_include_HEADERS = interfaces/cc/pspell.h
  
  endif
  
@@ -16,7 +16,7 @@ diff --git a/configure.ac b/configure.ac
 index 60e3b39..99f45db 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -589,5 +589,6 @@ AC_CONFIG_FILES([Makefile gen/Makefile common/Makefile lib/Makefile data/Makefil
+@@ -601,5 +601,6 @@ AC_CONFIG_FILES([Makefile gen/Makefile common/Makefile lib/Makefile data/Makefil
  		 scripts/Makefile examples/Makefile
  		 prog/Makefile manual/Makefile po/Makefile.in m4/Makefile
                   modules/filter/Makefile myspell/Makefile lib5/Makefile
