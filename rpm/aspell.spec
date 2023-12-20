@@ -1,11 +1,11 @@
 Summary: A spelling checker
 Name: aspell
-Version: 0.60.8
+Version: 0.60.8.1
 Release: 1
 License: LGPLv2 and MIT
 URL: http://aspell.net/
 Source0: ftp://ftp.gnu.org/gnu/aspell/aspell-%{version}.tar.gz
-Patch7: aspell-0.60.5-pspell_conf.patch
+Patch0: aspell-0.60.5-pspell_conf.patch
 BuildRequires: gettext, ncurses-devel, pkgconfig, texinfo
 Provides: pspell < 0.13
 Obsoletes: pspell < 0.13
@@ -34,8 +34,7 @@ Aspell is a spelling checker. The aspell-devel package includes the
 static libraries and header files needed for Aspell development.
 
 %prep
-%setup -q -n aspell-%{version}/aspell
-%patch7 -p1 -b .mlib
+%autosetup -p1 -n aspell-%{version}/aspell
 
 %build
 ./autogen
