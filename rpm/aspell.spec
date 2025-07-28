@@ -3,9 +3,10 @@ Name: aspell
 Version: 0.60.8.1
 Release: 1
 License: LGPLv2 and MIT
-URL: http://aspell.net/
-Source0: ftp://ftp.gnu.org/gnu/aspell/aspell-%{version}.tar.gz
+URL: https://github.com/sailfishos/aspell
+Source0: aspell-%{version}.tar.gz
 Patch0: aspell-0.60.5-pspell_conf.patch
+Patch1: aspell-0.60.8-gcc15.patch
 BuildRequires: gettext, ncurses-devel, pkgconfig, texinfo
 Provides: pspell < 0.13
 Obsoletes: pspell < 0.13
@@ -62,7 +63,6 @@ rm -f ${RPM_BUILD_ROOT}%{_infodir}/dir
 %postun -p /sbin/ldconfig
 
 %files -f %{name}.lang
-%defattr(-,root,root)
 %license COPYING
 %doc README.md TODO
 %dir %{_libdir}/aspell-0.60
@@ -82,7 +82,6 @@ rm -f ${RPM_BUILD_ROOT}%{_infodir}/dir
 %{_mandir}/man1/prezip-bin.1.*
 
 %files devel
-%defattr(-,root,root)
 %dir %{_includedir}/pspell
 %{_bindir}/pspell-config
 %{_includedir}/aspell.h
